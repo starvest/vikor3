@@ -1,0 +1,46 @@
+<?php
+    $row = $db->get_row("SELECT * FROM tb_alternatif WHERE kode_alternatif='$_GET[ID]'");
+    $rows = $db->get_results("SELECT * FROM tb_kategori_wilayah");
+
+    $selected= $row->id_kategori_wilayah;
+?>
+<div class="page-header">
+    <h1>Ubah Alternatif</h1>
+</div>
+<div class="row">
+    <div class="col-sm-6">
+        <?php if($_POST) include'aksi.php'?>
+        <form method="post">
+            <div class="form-group">
+                <label>Kode Alternatif <span class="text-danger">*</span></label>
+                <input class="form-control" type="text" name="kode" readonly="readonly" value="<?=set_value('kode',$row->kode_alternatif)?>"/>
+            </div>
+            <div class="form-group">
+                <label>Nama Alternatif <span class="text-danger">*</span></label>
+                <input class="form-control" type="text" name="nama" value="<?=set_value('nama',$row->nama_alternatif)?>"/>
+            </div>
+            <div class="form-group">
+                <label>Kategori wilayah <span class="text-danger">*</span></label>
+                <select class="wilayah form-control" name="getwilayah">
+                  <?php foreach ($rows as $wilayah) {
+                    if ($selected == $wilayah->id) {
+                      ?>
+                      <option selected="selected" value="<?=$wilayah->id?>"><?= $wilayah->wilayah?></option>
+                      <?php
+                    }
+                      else{
+                        ?>
+                        <option value="<?=$wilayah->id?>"><?= $wilayah->wilayah?></option>
+                        <?php
+                      }
+
+                  } ?>
+                </select>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-primary"><span class="glyphicon glyphicon-save"></span> Simpan</button>
+                <a class="btn btn-danger" href="?m=alternatif"><span class="glyphicon glyphicon-arrow-left"></span> Kembali</a>
+            </div>
+        </form>
+    </div>
+</div>
